@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin-container
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: farisasahili@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: 1234
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    networks:
+      - urgentnews_network
+
+
+  postgres:
+    image: fasahili/postgres-urgentnews
+    container_name: postgres-container
+    ports:
+      - "5432:5432"
+    networks:
+      - urgentnews_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      retries: 5
+
+  backend:
+    image: fasahili/backend-urgentnews
+    container_name: backend-container
+    build: ./backend
+    ports:
+      - "5000:5000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - urgentnews_network
+
+  frontend:
+    image: fasahili/frontend-urgentnews
+    container_name: frontend-container
+    build: ./frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - urgentnews_network
+
+networks:
+  urgentnews_network:
+    driver: bridge
