@@ -60,8 +60,3 @@ docker-compose up --build
 - **Frontend:** `http://localhost`
 - **Backend API:** `http://localhost:5000/getUrgentNews`
 ---
-
-## Loom Video (Project Demo)
-🎥 **Watch the full setup and demo here:** [Loom Video](https://www.loom.com/share/f821ce16f38c445489355087cb76acee?sid=30d690dc-7bf7-4207-b01e-212f9dee5a0f)
-
----
